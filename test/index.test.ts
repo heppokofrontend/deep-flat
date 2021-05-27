@@ -104,8 +104,6 @@ test('Infinity loop test', () => {
   const flattened = flatDeep(arr);
   const flattened2 = flatDeep(arr, {circularReferenceToJson: true});
 
-  console.log(flattened);
-  console.log(flattened2);
 
   expect(flattened[3]).toBe(0);
   expect(flattened[6]).toBe(map);

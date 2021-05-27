@@ -13,22 +13,11 @@ export namespace FlatDeep {
 /**
  * Determine if flatable.
  * @param arg - Variables to be checked
- * @param isStringIgnore - Whether to ignore the string type
  * @returns - Judgment result
  */
-export const isFlatable = (arg: any, isStringIgnore: boolean) => {
+export const isFlatable = (arg: any) => {
   if (!arg) {
     return false;
-  }
-
-  if (typeof arg === 'string') {
-    if (isStringIgnore) {
-      return false;
-    }
-
-    // If the string is less than two character,
-    // it must return false, otherwise it will cause an infinite loop.
-    return 2 < arg.length;
   }
 
   return arg[Symbol.iterator];
@@ -46,7 +35,7 @@ const defaultOptions = {
  * @returns - Completely Flattened array
  */
 export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
-  const circularReferenceObjects: any[] = [iterable];
+  const circularReferenceObjects = new Set<any>([iterable]);
   /**
    * @param items - The iterable object to flatten
    * @returns - A completely flattened array.
@@ -59,27 +48,51 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
      * @returns - A flattened array.
      */
     const callback = (acc: any[], current: any) => {
-      if (isFlatable(current, options.stringIgnore ?? true)) {
-        if (typeof current === 'object') {
-          if (!circularReferenceObjects.includes(current)) {
-            circularReferenceObjects.push(current);
+      const isWatched = circularReferenceObjects.has(current);
 
-            return acc.concat(loop([...current]));
+      if (
+        (
+          typeof current === 'string' &&
+          (
+            (
+              (options.stringIgnore ?? true) ||
+              current.length < 2
+            ) ||
+            current === '[Circular]'
+          )
+        ) ||
+        (
+          typeof current !== 'string' &&
+          (
+            (
+              isWatched &&
+              !options.circularReferenceToJson
+            ) ||
+            !isFlatable(current)
+          )
+        )
+      ) {
+        return acc.concat(current);
+      }
+
+      if (typeof current === 'object') {
+        circularReferenceObjects.add(current);
+
+        if (
+          isWatched &&
+          options.circularReferenceToJson
+        ) {
+          const newObj =JSON.parse(safeStringify(current));
+
+          if (newObj[Symbol.iterator]) {
+            return acc.concat(loop([...newObj]));
           }
 
-          if (options.circularReferenceToJson) {
-            return acc.concat(loop([...JSON.parse(safeStringify(current))]));
-          }
-
-          return acc.concat(current);
-        }
-
-        if (current !== '[Circular]') {
-          return acc.concat(loop([...current]));
+          return acc.concat(loop([newObj]));
         }
       }
 
-      return acc.concat(current);
+      return acc.concat(loop([...current]));
     };
 
     return items.reduce(callback, []);
