@@ -62,8 +62,7 @@ For Example:
 |property|type|default|required|description|
 |---|:-:|:-:|:-:|---|
 |`stringIgnore`|`boolean`|`true`|none|Whether to ignore the string type.|
-|`circularReferenceToJson`|`boolean`|`false`|none|If a circular reference is found, convert it to JSON without ignoring it.|
-
+|`circularReferenceToJson`|`boolean`|`false`|none|If a circular reference is found, convert it to JSON without ignoring it. The circular reference will be replaced by the string `[Circular]` (see [fast-safe-stringify](https://www.npmjs.com/package/fast-safe-stringify)).|
 
 ## Contributing
 
