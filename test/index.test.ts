@@ -231,5 +231,5 @@ test('Infinity loop test with to JSON and string ignore', () => {
 
 test('Not iterable', () => {
   // @ts-ignore
-  expect(() => flatDeep({})).toThrowError(/The argument is not iterable/);
+  expect(() => flatDeep({})).toThrowError(/is not iterable/);
 })

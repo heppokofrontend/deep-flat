@@ -116,9 +116,5 @@ export const flatDeep = <T = any>(argIterableObj: Iterable<any>, options: FlatDe
     return items.reduce(callback, []);
   };
 
-  if (!argIterableObj[Symbol.iterator]) {
-    throw new TypeError('The argument is not iterable');
-  }
-
   return loop([...argIterableObj]);
 };
