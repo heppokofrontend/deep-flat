@@ -15,7 +15,7 @@ export namespace FlatDeep {
  * @param arg - Variables to be checked
  * @returns - Judgment result
  */
-export const isFlatable = (arg: any) => {
+const isFlatable = (arg: any) => {
   if (!arg) {
     return false;
   }
@@ -23,11 +23,18 @@ export const isFlatable = (arg: any) => {
   return arg[Symbol.iterator];
 };
 
+/** The default option config of flatDeep */
 const defaultOptions = {
   stringIgnore: true,
   circularReferenceToJson: false,
 };
 
+/**
+ * Check if it's an ignorable string.
+ * @param options - The option of flatDeep
+ * @param current - The current object of callback function in Array.reduce
+ * @returns - Judgment result
+ */
 const isIgnorableString = (options: FlatDeep.options, current: any) => (
   typeof current === 'string' &&
   (
@@ -39,6 +46,13 @@ const isIgnorableString = (options: FlatDeep.options, current: any) => (
   )
 );
 
+/**
+ * Check if it's an ignorable object.
+ * @param options - The option of flatDeep
+ * @param current - The current object of callback function in Array.reduce
+ * @param isWatched - Whether there is a suspicion of circulatory reference
+ * @returns - Judgment result
+ */
 const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: boolean) => (
   typeof current !== 'string' &&
   (
@@ -57,7 +71,7 @@ const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: b
  * @returns - Completely Flattened array
  */
 export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
-  const circularReferenceObjects = new Set<any>([iterable]);
+  const duplicateObjects = new Set<any>([iterable]);
   /**
    * @param items - The iterable object to flatten
    * @returns - A completely flattened array.
@@ -70,7 +84,7 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
      * @returns - A flattened array.
      */
     const callback = (acc: any[], current: any) => {
-      const isWatched = circularReferenceObjects.has(current);
+      const isWatched = duplicateObjects.has(current);
 
       if (
         isIgnorableString(options, current) ||
@@ -80,7 +94,7 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
       }
 
       if (typeof current === 'object') {
-        circularReferenceObjects.add(current);
+        duplicateObjects.add(current);
 
         if (
           isWatched &&
