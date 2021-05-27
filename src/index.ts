@@ -66,7 +66,7 @@ const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: b
 
 /**
  * Flatten iterable object
- * @param arg - The iterable object to flatten
+ * @param argIterableObj - The iterable object to flatten
  * @param options - options
  * @returns - Completely Flattened array
  */
