@@ -36,6 +36,26 @@ const defaultOptions = {
  */
 export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
   const circularReferenceObjects = new Set<any>([iterable]);
+    const isIgnorableString = (current: any) => (
+      typeof current === 'string' &&
+      (
+        (
+          (options.stringIgnore ?? true) ||
+          current.length < 2
+        ) ||
+        current === '[Circular]'
+      )
+    );
+    const isIgnorableObject = (current: any, isWatched: boolean) => (
+      typeof current !== 'string' &&
+      (
+        (
+          isWatched &&
+          !options.circularReferenceToJson
+        ) ||
+        !isFlatable(current)
+      )
+    );
   /**
    * @param items - The iterable object to flatten
    * @returns - A completely flattened array.
@@ -49,29 +69,10 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
      */
     const callback = (acc: any[], current: any) => {
       const isWatched = circularReferenceObjects.has(current);
-      const isIgnorableString = () => (
-        typeof current === 'string' &&
-        (
-          (
-            (options.stringIgnore ?? true) ||
-            current.length < 2
-          ) ||
-          current === '[Circular]'
-        )
-      );
 
       if (
-        isIgnorableString() ||
-        (
-          typeof current !== 'string' &&
-          (
-            (
-              isWatched &&
-              !options.circularReferenceToJson
-            ) ||
-            !isFlatable(current)
-          )
-        )
+        isIgnorableString(current) ||
+        isIgnorableObject(current, isWatched)
       ) {
         return acc.concat(current);
       }
