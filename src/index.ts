@@ -24,7 +24,7 @@ const isFlatable = (arg: any) => {
 };
 
 /** The default option config of flatDeep */
-const defaultOptions = {
+const defaultOptions: FlatDeep.options = {
   stringIgnore: true,
   circularReferenceToJson: false,
 };
