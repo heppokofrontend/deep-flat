@@ -86,13 +86,7 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
           isWatched &&
           options.circularReferenceToJson
         ) {
-          const newObj =JSON.parse(safeStringify(current));
-
-          if (newObj[Symbol.iterator]) {
-            return acc.concat(loop([...newObj]));
-          }
-
-          return acc.concat(loop([newObj]));
+          return acc.concat(loop([...JSON.parse(safeStringify(current))]));
         }
       }
 
