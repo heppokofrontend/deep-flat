@@ -70,8 +70,13 @@ const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: b
  * @param options - options
  * @returns - Completely Flattened array
  */
-export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
-  const duplicateObjects = new Set<any>([iterable]);
+export const flatDeep = <T = any>(argIterableObj: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
+  /**
+   * In order to avoid circular references, the object once checked by
+   * the flatDeep (loop) function should be ignored.
+   * This Set object is used to manage the confirmed objects.
+   */
+  const duplicateObjects = new Set<any>([argIterableObj]);
   /**
    * @param items - The iterable object to flatten
    * @returns - A completely flattened array.
@@ -110,5 +115,9 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
     return items.reduce(callback, []);
   };
 
-  return loop([...iterable]);
+  if (!argIterableObj[Symbol.iterator]) {
+    throw new TypeError('The argument is not iterable');
+  }
+
+  return loop([...argIterableObj]);
 };
