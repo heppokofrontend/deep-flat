@@ -1,7 +1,7 @@
 {
   "name": "@heppokofrontend/flat-deep",
   "description": "Completely flattens the iterable object.",
-  "version": "0.2.1",
+  "version": "0.2.0",
   "author": "heppokofrontend",
   "bugs": {
     "url": "https://github.com/heppokofrontend/flat-deep/issues"
