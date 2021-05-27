@@ -5,7 +5,7 @@
  [![@heppokofrontend/flat-deep](https://snyk.io/advisor/npm-package/@heppokofrontend/flat-deep/badge.svg)](https://snyk.io/advisor/npm-package/@heppokofrontend/flat-deep)
 
 
-Completely flattens the iterable object.
+The `flatDeep()` method creates a new array with all sub-iterables elements concatenated into it recursively up.
 
 ## Usage
 
@@ -36,6 +36,33 @@ const arr = [
 
 console.log(flatDeep(arr)); // > [0, 'hoge', 1, 2, 3, 4, 5, 6]
 ```
+
+## Syntax
+
+```ts
+flatDeep(iterable, options);
+```
+
+### Parameters
+
+#### `iterable`
+
+The iterable object to be flattened.
+
+For Example:
+
+- Array
+- Set
+- Map
+- NodeList
+- HTMLCollection
+
+#### `options`
+
+|property|type|default|required|description|
+|---|:-:|:-:|:-:|---|
+|`stringIgnore`|`boolean`|`true`|none|Whether to ignore the string type.|
+|`circularReferenceToJson`|`boolean`|`false`|none|If a circular reference is found, convert it to JSON without ignoring it.|
 
 
 ## Contributing
