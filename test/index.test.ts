@@ -1,4 +1,4 @@
-import { flatDeep, isFlatable } from '../src/index';
+import { flatDeep } from '../src/index';
 
 
 test('Basic usege', () => {
