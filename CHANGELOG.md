@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.2.3] - 2021-05-28
+
+### Remove
+
+- Unnecessary error handling has been removed.
+
+## [0.2.2] - 2021-05-28
+
+### Fixed
+
+- A few comment outs have been fixed.
+
+## 0.2.1 - 2021-05-28
+
+This version has been unpublished because it was an incorrect work.
+
+### Remove
+
+- dist/** no commit
 
 ## [0.2.0] - 2021-05-28
 
@@ -33,6 +52,7 @@ Organized the code.
 
 - First release
 
+[0.2.2]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.2.2
 [0.2.0]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.2.0
 [0.1.1]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.1.1
 [0.1.0]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.1.0
