@@ -1,5 +1,27 @@
 import { flatDeep } from '../src/index';
 
+test('README.md', () => {
+  const map = new Map();
+  const set = new Set();
+  const arr = [
+    0,
+    'hoge',
+    [
+      1,
+      2,
+      [
+        set,
+        map,
+      ],
+    ],
+    6,
+  ];
+
+  set.add(3);
+  map.set(4, [5]);
+
+  expect(JSON.stringify(flatDeep(arr))).toBe(JSON.stringify([0, 'hoge', 1, 2, 3, 4, 5, 6]));
+});
 
 test('Basic usege', () => {
   const arr = [

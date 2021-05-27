@@ -20,6 +20,8 @@ Example:
 ```javascript
 import { flatDeep } from '@heppokofrontend/flat-deep';
 
+const map = new Map();
+const set = new Set();
 const arr = [
   0,
   'hoge',
@@ -27,12 +29,15 @@ const arr = [
     1,
     2,
     [
-      4,
-      5,
+      set,
+      map,
     ],
   ],
   6,
 ];
+
+set.add(3);
+map.set(4, [5]);
 
 console.log(flatDeep(arr)); // > [0, 'hoge', 1, 2, 3, 4, 5, 6]
 ```
