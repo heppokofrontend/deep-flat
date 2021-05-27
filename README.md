@@ -4,7 +4,7 @@
  [![@heppokofrontend/flat-deep](https://snyk.io/advisor/npm-package/@heppokofrontend/flat-deep/badge.svg)](https://snyk.io/advisor/npm-package/@heppokofrontend/flat-deep)
 
 
-ompletely flattens the iterable object.
+Completely flattens the iterable object.
 
 ## Usage
 
