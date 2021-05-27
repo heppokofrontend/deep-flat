@@ -49,18 +49,19 @@ export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.opt
      */
     const callback = (acc: any[], current: any) => {
       const isWatched = circularReferenceObjects.has(current);
+      const isIgnorableString = () => (
+        typeof current === 'string' &&
+        (
+          (
+            (options.stringIgnore ?? true) ||
+            current.length < 2
+          ) ||
+          current === '[Circular]'
+        )
+      );
 
       if (
-        (
-          typeof current === 'string' &&
-          (
-            (
-              (options.stringIgnore ?? true) ||
-              current.length < 2
-            ) ||
-            current === '[Circular]'
-          )
-        ) ||
+        isIgnorableString() ||
         (
           typeof current !== 'string' &&
           (
