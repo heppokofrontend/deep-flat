@@ -205,3 +205,9 @@ test('Infinity loop test with to JSON and string ignore', () => {
   expect(typeof flattened[11] === 'object').toBe(true);
   expect(Object.keys(flattened[11]).length).toBe(0);
 });
+
+
+test('Not iterable', () => {
+  // @ts-ignore
+  expect(() => flatDeep({})).toThrowError(/The argument is not iterable/);
+})
