@@ -1,0 +1,34 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.ts'
+      - '**.json'
+      - '**.yml'
+  pull_request:
+    paths:
+      - '!*.md'
+jobs:
+  test:
+    strategy:
+      matrix:
+        # platform: [ windows-latest, macOS-latest ]
+        platform: [ ubuntu-latest ]
+        node: [ '14' ]
+    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: npm ci
+    - run: npm test
+    - uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTER_ID: f4582c73d8886379809b32965b2101ad709032e3931017f9c770334769de291d
+      with:
+        coverageLocations: |
+          ${{github.workspace}}/coverage/lcov.info:lcov
