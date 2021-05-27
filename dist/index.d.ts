@@ -9,7 +9,7 @@ export declare namespace FlatDeep {
 }
 /**
  * Flatten iterable object
- * @param arg - The iterable object to flatten
+ * @param argIterableObj - The iterable object to flatten
  * @param options - options
  * @returns - Completely Flattened array
  */
