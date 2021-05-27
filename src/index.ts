@@ -8,6 +8,9 @@ export namespace FlatDeep {
     /** If a circular reference is found, convert it to JSON without ignoring it. */
     circularReferenceToJson?: boolean,
   };
+
+  /** The type of main function */
+  export type fn = <T = any>(a: Iterable<any>, b: FlatDeep.options) => T[];
 };
 
 /**
@@ -34,20 +37,19 @@ export const isFlatable = (arg: any, isStringIgnore: boolean) => {
   return arg[Symbol.iterator];
 };
 
+const defaultOptions = {
+  stringIgnore: true,
+  circularReferenceToJson: false,
+};
+
 /**
  * Flatten iterable object
  * @param arg - The iterable object to flatten
  * @param options - options
  * @returns - Completely Flattened array
  */
-export const flatDeep = <T = any>(
-  iterable: Iterable<any>,
-  options: FlatDeep.options = {
-    stringIgnore: true,
-    circularReferenceToJson: false,
-  }
-): T[] => {
-  const hoge: any[] = [iterable];
+export const flatDeep: FlatDeep.fn = (iterable, options) => {
+  const circularReferenceObjects: any[] = [iterable];
   /**
    * @param items - The iterable object to flatten
    * @returns - A completely flattened array.
@@ -62,8 +64,8 @@ export const flatDeep = <T = any>(
     const callback = (acc: any[], current: any) => {
       if (isFlatable(current, options.stringIgnore ?? true)) {
         if (typeof current === 'object') {
-          if (!hoge.includes(current)) {
-            hoge.push(current);
+          if (!circularReferenceObjects.includes(current)) {
+            circularReferenceObjects.push(current);
 
             return acc.concat(loop([...current]));
           }
