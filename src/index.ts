@@ -8,9 +8,6 @@ export namespace FlatDeep {
     /** If a circular reference is found, convert it to JSON without ignoring it. */
     circularReferenceToJson?: boolean,
   };
-
-  /** The type of main function */
-  export type fn = <T = any>(a: Iterable<any>, b: FlatDeep.options) => T[];
 };
 
 /**
@@ -48,7 +45,7 @@ const defaultOptions = {
  * @param options - options
  * @returns - Completely Flattened array
  */
-export const flatDeep: FlatDeep.fn = (iterable, options) => {
+export const flatDeep = <T = any>(iterable: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
   const circularReferenceObjects: any[] = [iterable];
   /**
    * @param items - The iterable object to flatten
