@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 
+## [0.2.0] - 2021-05-28
+
+Organized the code.
+
+### Remove
+
+- export `isFlatable()` method
+
 ## [0.1.1] - 2021-05-27
 
 ### Added
@@ -25,5 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release
 
+[0.2.0]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.2.0
 [0.1.1]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.1.1
 [0.1.0]: https://github.com/heppokofrontend/flat-deep/releases/tag/v0.1.0
