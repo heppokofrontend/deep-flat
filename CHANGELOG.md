@@ -25,7 +25,7 @@ This version has been unpublished because it was an incorrect work.
 
 ### Remove
 
-- dist/** no commit
+- dist/\*\* no commit
 
 ## [0.2.0] - 2021-05-28
 

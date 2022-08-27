@@ -4,14 +4,13 @@ export namespace FlatDeep {
   /** The option of FlatDeep. */
   export type options = {
     /** Whether to ignore the string type */
-    stringIgnore?: boolean,
+    stringIgnore?: boolean;
     /** If a circular reference is found, convert it to JSON without ignoring it */
-    circularReferenceToJson?: boolean,
+    circularReferenceToJson?: boolean;
   };
-};
+}
 
-const isFlatable = (arg: any) => arg !== null
-&& arg !== undefined && Boolean(arg[Symbol.iterator]);
+const isFlatable = (arg: any) => arg !== null && arg !== undefined && Boolean(arg[Symbol.iterator]);
 
 /** The default option config of flatDeep */
 const defaultOptions: FlatDeep.options = {
@@ -25,16 +24,9 @@ const defaultOptions: FlatDeep.options = {
  * @param current - The current object of callback function in Array.reduce
  * @returns - Judgment result
  */
-const isIgnorableString = (options: FlatDeep.options, current: any) => (
+const isIgnorableString = (options: FlatDeep.options, current: any) =>
   typeof current === 'string' &&
-  (
-    (
-      (options.stringIgnore ?? true) ||
-      current.length < 2
-    ) ||
-    current === '[Circular]'
-  )
-);
+  ((options.stringIgnore ?? true) || current.length < 2 || current === '[Circular]');
 
 /**
  * Check if it's an ignorable object
@@ -43,16 +35,9 @@ const isIgnorableString = (options: FlatDeep.options, current: any) => (
  * @param isWatched - Whether there is a suspicion of circulatory reference
  * @returns - Judgment result
  */
-const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: boolean) => (
+const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: boolean) =>
   typeof current !== 'string' &&
-  (
-    (
-      isWatched &&
-      !options.circularReferenceToJson
-    ) ||
-    !isFlatable(current)
-  )
-);
+  ((isWatched && !options.circularReferenceToJson) || !isFlatable(current));
 
 /**
  * Flatten iterable object
@@ -60,7 +45,10 @@ const isIgnorableObject = (options: FlatDeep.options, current: any, isWatched: b
  * @param options - options
  * @returns - Completely Flattened array
  */
-export const flatDeep = <T = any>(argIterableObj: Iterable<any>, options: FlatDeep.options = defaultOptions): T[] => {
+export const flatDeep = <T = any>(
+  argIterableObj: Iterable<any>,
+  options: FlatDeep.options = defaultOptions,
+): T[] => {
   /**
    * In order to avoid circular references, the object once checked by
    * the flatDeep (loop) function should be ignored.
@@ -82,20 +70,14 @@ export const flatDeep = <T = any>(argIterableObj: Iterable<any>, options: FlatDe
     const callback = (acc: any[], current: any) => {
       const isWatched = duplicateObjects.has(current);
 
-      if (
-        isIgnorableString(options, current) ||
-        isIgnorableObject(options, current, isWatched)
-      ) {
+      if (isIgnorableString(options, current) || isIgnorableObject(options, current, isWatched)) {
         return acc.concat(current);
       }
 
       if (typeof current === 'object') {
         duplicateObjects.add(current);
 
-        if (
-          isWatched &&
-          options.circularReferenceToJson
-        ) {
+        if (isWatched && options.circularReferenceToJson) {
           return acc.concat(loop([...JSON.parse(safeStringify(current))]));
         }
       }
