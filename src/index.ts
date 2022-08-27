@@ -10,18 +10,8 @@ export namespace FlatDeep {
   };
 };
 
-/**
- * Determine if flatable
- * @param arg - Variables to be checked
- * @returns - Judgment result
- */
-const isFlatable = (arg: any) => {
-  if (!arg) {
-    return false;
-  }
-
-  return arg[Symbol.iterator];
-};
+const isFlatable = (arg: any) => arg !== null
+&& arg !== undefined && Boolean(arg[Symbol.iterator]);
 
 /** The default option config of flatDeep */
 const defaultOptions: FlatDeep.options = {
