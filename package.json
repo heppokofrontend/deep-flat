@@ -7,7 +7,7 @@
     "url": "https://github.com/heppokofrontend/flat-deep/issues"
   },
   "dependencies": {
-    "fast-safe-stringify": "^2.0.8"
+    "fast-safe-stringify": "^2.1.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
